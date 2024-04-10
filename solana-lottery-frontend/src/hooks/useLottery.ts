@@ -4,6 +4,7 @@ import {
   getLotteryAddress,
   getMasterAddress,
   getTicketAddress,
+  getTotalPrice,
 } from "@/utils/program";
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram } from "@solana/web3.js";
 import { Address, BN, Idl, Program } from "@project-serum/anchor";
@@ -27,6 +28,14 @@ export const useLottery = () => {
   useEffect(() => {
     updateState();
   }, [program]);
+
+  const getPot = async () => {
+    return getTotalPrice(lottery);
+  }
+
+  const getPlayers = async (lottery: any) => {
+    return [lottery.lastTicketId];
+  }
 
   const updateState = async () => {
     if (!program) return;
@@ -191,6 +200,8 @@ export const useLottery = () => {
 
   return {
     updateState,
+    getPot,
+    getPlayers,
     initMaster,
     createLottery,
     buyTicket,
